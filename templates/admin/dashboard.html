@@ -7,6 +7,7 @@
         {% for subject in subjects %}
           <strong>{{ subject.name }}</strong>
           <a href="{{ url_for('view_subject', id=subject.id) }}">View</a>
+          <a href="{{ url_for('update_subject', id=subject.id) }}">Edit</a>
           <br>
         {% endfor %}
     </div>

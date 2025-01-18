@@ -165,3 +165,39 @@ def view_subject(id):
         return redirect(url_for("admin"))
     
     return render_template("subject/view.html", subject=subject)
+
+
+@app.route("/admin/subject/<int:id>/update")
+@admin_required
+def update_subject(id):
+    subject = Subject.query.get(id)
+    
+    if not subject:
+        flash("Subject does not exist!")
+        return redirect(url_for("admin"))
+    
+    return render_template("subject/update.html", subject=subject)
+
+
+@app.route("/admin/subject/<int:id>/update", methods=["POST"])
+@admin_required
+def update_subject_post(id):
+    subject = Subject.query.get(id)
+    
+    if not subject:
+        flash("Subject does not exist!")
+        return redirect(url_for("admin"))
+
+    name = request.form.get("subject_name")
+    description = request.form.get("subject_description")
+
+    if not name or not description:
+        flash("Please fill out all the fields!")
+        return redirect(url_for("update_subject", id=id))
+    
+    subject.name = name
+    subject.description = description
+
+    db.session.commit()
+    flash("Subject updated successfully!")
+    return redirect(url_for("admin"))
