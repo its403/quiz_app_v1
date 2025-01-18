@@ -127,7 +127,8 @@ def logout():
 @app.route("/admin")
 @admin_required
 def admin():
-    return render_template("admin/dashboard.html")
+    subjects = Subject.query.all()
+    return render_template("admin/dashboard.html", subjects=subjects)
 
 
 # CRUD Subject

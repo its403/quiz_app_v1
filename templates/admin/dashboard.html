@@ -3,5 +3,11 @@
 {% block content %}
     <h1>ADMIN DASHBOARD</h1>
     <hr>
+    <div>
+        {% for subject in subjects %}
+          <strong>{{ subject.name }}</strong><br>
+        {% endfor %}
+    </div>
+    <hr>
     <a href="{{ url_for('add_subject') }}">New Subject</a>
 {% endblock %}
