@@ -5,7 +5,9 @@
     <hr>
     <div>
         {% for subject in subjects %}
-          <strong>{{ subject.name }}</strong><br>
+          <strong>{{ subject.name }}</strong>
+          <a href="{{ url_for('view_subject', id=subject.id) }}">View</a>
+          <br>
         {% endfor %}
     </div>
     <hr>

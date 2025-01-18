@@ -137,7 +137,7 @@ def admin():
 def add_subject():
     return render_template("subject/add.html")
 
-# CRUD for Subjects
+
 @app.route("/admin/subject/add", methods=["POST"])
 @admin_required
 def add_subject_post():
@@ -153,3 +153,15 @@ def add_subject_post():
     db.session.commit()
     flash("Subject added successfully")
     return redirect(url_for("admin"))
+
+
+@app.route("/admin/subject/<int:id>/view")
+@admin_required
+def view_subject(id):
+    subject =  Subject.query.get(id)
+
+    if not subject:
+        flash("Subject does not exist!")
+        return redirect(url_for("admin"))
+    
+    return render_template("subject/view.html", subject=subject)
