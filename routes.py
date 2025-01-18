@@ -40,7 +40,7 @@ def admin_required(func):
 @app.route("/")
 @auth_required
 def index():
-    return "Quiz App"
+    return render_template("index.html")
 
 
 # Register Functionality
@@ -106,4 +106,13 @@ def login_post():
 
     flash(f"{user.username} successfully logged in!")
 
+    return redirect(url_for("index"))
+
+
+# Logout Functionality
+@app.route("/logout")
+@auth_required
+def logout():
+    session.pop("user_id")
+    flash("Logged out successfully")
     return redirect(url_for("index"))
