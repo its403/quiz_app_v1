@@ -128,3 +128,27 @@ def logout():
 @admin_required
 def admin():
     return render_template("admin/dashboard.html")
+
+
+# CRUD Subject
+@app.route("/admin/subject/add")
+@admin_required
+def add_subject():
+    return render_template("subject/add.html")
+
+# CRUD for Subjects
+@app.route("/admin/subject/add", methods=["POST"])
+@admin_required
+def add_subject_post():
+    name = request.form.get("subject_name")
+    description = request.form.get("subject_description")
+
+    if not name or not description:
+        flash("Please fill all the fields!")
+        return redirect(url_for("add_subject"))
+    
+    subject = Subject(name=name, description=description)
+    db.session.add(subject)
+    db.session.commit()
+    flash("Subject added successfully")
+    return redirect(url_for("admin"))

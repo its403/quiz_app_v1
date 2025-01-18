@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<h1>ADD NEW SUBJECT</h1>
+<hr />
+<form action="" method="post">
+  <label for="subject_name">Subject Name</label>
+  <input type="text" name="subject_name" />
+
+  <label for="subject_description">Description</label>
+  <input type="text" name="subject_description" />
+
+  <button type="submit">
+    ADD
+  </button>
+</form>
+{% endblock %}
