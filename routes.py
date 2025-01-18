@@ -40,6 +40,11 @@ def admin_required(func):
 @app.route("/")
 @auth_required
 def index():
+    user = User.query.get(session["user_id"])
+
+    if user.is_admin:
+        return redirect(url_for("admin"))
+    
     return render_template("index.html")
 
 
@@ -115,4 +120,11 @@ def login_post():
 def logout():
     session.pop("user_id")
     flash("Logged out successfully")
-    return redirect(url_for("index"))
+    return redirect(url_for("login"))
+
+
+# Admin Functionality
+@app.route("/admin")
+@admin_required
+def admin():
+    return render_template("admin/dashboard.html")
