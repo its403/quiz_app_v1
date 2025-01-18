@@ -201,3 +201,29 @@ def update_subject_post(id):
     db.session.commit()
     flash("Subject updated successfully!")
     return redirect(url_for("admin"))
+
+
+@app.route("/admin/subject/<int:id>/delete")
+@admin_required
+def delete_subject(id):
+    subject = Subject.query.get(id)
+    
+    if not subject:
+        flash("Subject does not exist!")
+        return redirect(url_for("admin"))
+
+    return render_template("subject/delete.html", subject=subject)
+
+@app.route("/admin/subject/<int:id>/delete", methods=["POST"])
+@admin_required
+def delete_subject_post(id):
+    subject = Subject.query.get(id)
+    
+    if not subject:
+        flash("Subject does not exist!")
+        return redirect(url_for("admin"))
+
+    db.session.delete(subject)
+    db.session.commit()
+    flash("Subject deleted successfully!")
+    return redirect(url_for("admin"))

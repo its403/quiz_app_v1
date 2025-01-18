@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<h1>DELETE SUBJECT</h1>
+
+<p>Are you sure you want to delete <strong>{{ subject.name }}</strong> subject?</p>
+
+<br>
+<form action="" method="post">
+    <button type="submit">
+        Delete
+    </button>
+</form>
+{% endblock %}
