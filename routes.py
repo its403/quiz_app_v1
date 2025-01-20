@@ -214,6 +214,7 @@ def delete_subject(id):
 
     return render_template("subject/delete.html", subject=subject)
 
+
 @app.route("/admin/subject/<int:id>/delete", methods=["POST"])
 @admin_required
 def delete_subject_post(id):
@@ -242,6 +243,7 @@ def add_chapter(subject_id):
     
     return render_template("chapter/add.html", subjects=subjects, subject=subject)
 
+
 @app.route("/subject/chapter/add/<int:subject_id>", methods=["POST"])
 @admin_required
 def add_chapter_post(subject_id):
@@ -268,7 +270,7 @@ def add_chapter_post(subject_id):
     return redirect(url_for("admin"))
 
 
-@app.route("/subject/chapter/view/<int:id>")
+@app.route("/subject/chapter/<int:id>/view")
 @admin_required
 def view_chapter(id):
     chapter = Chapter.query.get(id)
@@ -290,6 +292,7 @@ def update_chapter(id):
         return redirect(url_for("admin"))
     
     return render_template("chapter/update.html", chapter=chapter)
+
 
 @app.route("/subject/chapter/<int:id>/update", methods=["POST"])
 @admin_required
