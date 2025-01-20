@@ -266,3 +266,15 @@ def add_chapter_post(subject_id):
 
     flash("Chapter added successfully!")
     return redirect(url_for("admin"))
+
+
+@app.route("/subject/chapter/view/<int:id>")
+@admin_required
+def view_chapter(id):
+    chapter = Chapter.query.get(id)
+
+    if not chapter:
+        flash("Chapter does not exist!")
+        return redirect(url_for("admin"))
+    
+    return render_template("chapter/view.html", chapter=chapter)

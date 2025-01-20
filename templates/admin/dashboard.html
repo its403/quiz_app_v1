@@ -22,7 +22,7 @@
                   <td>{{ chapter.name }}</td>
                   <td>{{ chapter.description }}</td>
                   <td>
-                    <a href="">View</a>
+                    <a href="{{ url_for('view_chapter', id=chapter.id) }}">View</a>
                     <a href="">Edit</a>
                     <a href="">Delete</a>
                   </td>
