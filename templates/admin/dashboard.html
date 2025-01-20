@@ -24,7 +24,7 @@
                   <td>
                     <a href="{{ url_for('view_chapter', id=chapter.id) }}">View</a>
                     <a href="{{ url_for('update_chapter', id=chapter.id) }}">Edit</a>
-                    <a href="">Delete</a>
+                    <a href="{{ url_for('delete_chapter', id=chapter.id) }}">Delete</a>
                   </td>
                 </tr>    
               {% endfor %}

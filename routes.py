@@ -313,3 +313,30 @@ def update_chapter_post(id):
     db.session.commit()
     flash("Chapter updated successfully!")
     return redirect(url_for("admin"))
+
+
+@app.route("/subject/chapter/<int:id>/delete")
+@admin_required
+def delete_chapter(id):
+    chapter = Chapter.query.get(id)
+
+    if not chapter:
+        flash("Chapter does not exist!")
+        return redirect(url_for("admin"))
+    
+    return render_template("chapter/delete.html", chapter=chapter)
+
+
+@app.route("/subject/chapter/<int:id>/delete", methods=["POST"])
+@admin_required
+def delete_chapter_post(id):
+    chapter = Chapter.query.get(id)
+
+    if not chapter:
+        flash("Chapter does not exist!")
+        return redirect(url_for("admin"))
+
+    db.session.delete(chapter)
+    db.session.commit()
+    flash("Chapter deleted successfully!")
+    return redirect(url_for("admin"))
