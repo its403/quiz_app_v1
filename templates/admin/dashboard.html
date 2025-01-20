@@ -5,13 +5,34 @@
     <hr>
     <div>
         {% for subject in subjects %}
-          <strong>{{ subject.name }}</strong>
+          <strong>{{ subject.name }}  | {{ subject.description }} | </strong>
           <a href="{{ url_for('view_subject', id=subject.id) }}">View</a>
           <a href="{{ url_for('update_subject', id=subject.id) }}">Edit</a>
           <a href="{{ url_for('delete_subject', id=subject.id) }}">Delete</a>
           <br>
+          <table>
+            <thead>
+              <th>Chapter Name</th>
+              <th>Description</th>
+              <th>Actions</th>
+            </thead>
+            <tbody>
+              {% for chapter in subject.chapters %}
+                <tr>
+                  <td>{{ chapter.name }}</td>
+                  <td>{{ chapter.description }}</td>
+                  <td>
+                    <a href="">View</a>
+                    <a href="">Edit</a>
+                    <a href="">Delete</a>
+                  </td>
+                </tr>    
+              {% endfor %}
+            </tbody>
+          </table>
+          <a href="{{ url_for('add_chapter', subject_id=subject.id) }}">New Chapter</a>
+          <hr>
         {% endfor %}
     </div>
-    <hr>
     <a href="{{ url_for('add_subject') }}">New Subject</a>
 {% endblock %}

@@ -227,3 +227,42 @@ def delete_subject_post(id):
     db.session.commit()
     flash("Subject deleted successfully!")
     return redirect(url_for("admin"))
+
+
+# CRUD Chapter
+@app.route("/subject/chapter/add/<int:subject_id>")
+@admin_required
+def add_chapter(subject_id):
+    subjects = Subject.query.all()
+    subject = Subject.query.get(subject_id)
+
+    if not subject:
+        flash("Subject does not exist!")
+        return redirect(url_for("admin"))
+    
+    return render_template("chapter/add.html", subjects=subjects, subject=subject)
+
+@app.route("/subject/chapter/add/<int:subject_id>", methods=["POST"])
+@admin_required
+def add_chapter_post(subject_id):
+    subject = Subject.query.get(subject_id)
+
+    if not subject:
+        flash("Subject does not exist!")
+        return redirect(url_for("admin"))
+    
+    name = request.form.get("chapter_name")
+    description = request.form.get("chapter_description")
+    sub_id = request.form.get("subject_id")
+    
+    if not name or not description or not sub_id:
+        flash("Please fill all the fields!")
+        return redirect(url_for("add_chapter", subject_id=subject_id))
+    
+    chapter = Chapter(name=name, description=description, subject_id=subject_id)
+
+    db.session.add(chapter)
+    db.session.commit()
+
+    flash("Chapter added successfully!")
+    return redirect(url_for("admin"))
