@@ -278,3 +278,38 @@ def view_chapter(id):
         return redirect(url_for("admin"))
     
     return render_template("chapter/view.html", chapter=chapter)
+
+
+@app.route("/subject/chapter/<int:id>/update")
+@admin_required
+def update_chapter(id):
+    chapter = Chapter.query.get(id)
+
+    if not chapter:
+        flash("Chapter does not exist!")
+        return redirect(url_for("admin"))
+    
+    return render_template("chapter/update.html", chapter=chapter)
+
+@app.route("/subject/chapter/<int:id>/update", methods=["POST"])
+@admin_required
+def update_chapter_post(id):
+    chapter = Chapter.query.get(id)
+
+    if not chapter:
+        flash("Chapter does not exist!")
+        return redirect(url_for("admin"))
+    
+    name = request.form.get("chapter_name")
+    description = request.form.get("chapter_description")
+
+    if not name or not description:
+        flash("Please fill all the fields!")
+        return redirect(url_for("update_chapter", id=id))
+    
+    chapter.name = name
+    chapter.description = description
+
+    db.session.commit()
+    flash("Chapter updated successfully!")
+    return redirect(url_for("admin"))
