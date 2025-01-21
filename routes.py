@@ -343,3 +343,10 @@ def delete_chapter_post(id):
     db.session.commit()
     flash("Chapter deleted successfully!")
     return redirect(url_for("admin"))
+
+
+# CRUD Quiz
+@app.route("/admin/quiz")
+@admin_required
+def quiz():
+    return render_template("quiz/quiz.html")
