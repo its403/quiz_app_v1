@@ -3,5 +3,10 @@
 {% block content %}
     <h1>Quiz Page</h1>
     <hr>
-    <a href="">New Quiz</a>
+    <div>
+        {% for quiz in quizzes %}
+            <strong>Quiz on {{ quiz.chapter.name }}</strong><hr>
+        {% endfor %}
+    </div>
+    <a href="{{ url_for('add_quiz') }}">New Quiz</a>
 {% endblock %}

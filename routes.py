@@ -3,6 +3,7 @@ from flask import render_template, redirect, flash, request, url_for, session
 from models import db, User, QualificationType, QuizTaker, Subject, Chapter, Quiz, Questions, Score
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
+from datetime import datetime
 
 
 # Decorators for auth and admin
@@ -349,4 +350,36 @@ def delete_chapter_post(id):
 @app.route("/admin/quiz")
 @admin_required
 def quiz():
-    return render_template("quiz/quiz.html")
+    quizzes = Quiz.query.all()
+
+    return render_template("quiz/quiz.html", quizzes=quizzes)
+
+
+@app.route("/quiz/add")
+@admin_required
+def add_quiz():
+    chapters = Chapter.query.all()
+
+    return render_template("quiz/add.html", chapters=chapters)
+
+
+@app.route("/quiz/add", methods=["POST"])
+@admin_required
+def add_quiz_post():
+    chapter_id = request.form.get("chapter_id")
+    date_html_format = request.form.get("date")
+    duration = request.form.get("duration")
+
+    if not chapter_id or not date_html_format or not duration:
+        flash("Please fill all the fields!")
+        return redirect(url_for("add_quiz"))
+    
+    date = datetime.strptime(date_html_format, "%Y-%m-%d").date()
+
+    quiz = Quiz(chapter_id=chapter_id, date_of_quiz=date, duration=duration)
+
+    db.session.add(quiz)
+    db.session.commit()
+
+    flash("New quiz added successfully!")
+    return redirect(url_for("quiz"))

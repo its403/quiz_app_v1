@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h1>New Quiz</h1>
+    <hr>
+    <form action="" method="post">
+        <label for="chapter_id">Chapter</label>
+        <select name="chapter_id">
+            {% for chapter in chapters %}
+                <option value="{{ chapter.id }}">{{ chapter.subject.name }} | {{ chapter.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="date">Date</label>
+        <input type="date" name="date">
+
+        <label for="duration">Duration (in minutes)</label>
+        <input type="number" name="duration" step="30" min="30" max="180" value="60">
+
+        <button type="submit">
+            Add Quiz
+        </button>
+    </form>
+{% endblock %}
