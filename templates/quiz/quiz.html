@@ -5,7 +5,7 @@
     <hr>
     <div>
         {% for quiz in quizzes %}
-            <strong>Quiz on {{ quiz.chapter.name }}</strong><hr>
+            <a href="{{ url_for('view_quiz', id=quiz.id) }}"><strong>Quiz on {{ quiz.chapter.name }}</strong></a><hr>
         {% endfor %}
     </div>
     <a href="{{ url_for('add_quiz') }}">New Quiz</a>

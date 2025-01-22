@@ -383,3 +383,11 @@ def add_quiz_post():
 
     flash("New quiz added successfully!")
     return redirect(url_for("quiz"))
+
+
+@app.route("/quiz/<int:id>/view")
+@admin_required
+def view_quiz(id):
+    quiz = Quiz.query.get(id)
+
+    return render_template("quiz/view.html", quiz=quiz)
