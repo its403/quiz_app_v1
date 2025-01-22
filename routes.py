@@ -429,3 +429,30 @@ def update_quiz_post(id):
     db.session.commit()
     flash("Quiz updated successfully!")
     return redirect(url_for("quiz"))
+
+
+@app.route("/quiz/<int:id>/delete")
+@admin_required
+def delete_quiz(id):
+    quiz = Quiz.query.get(id)
+
+    if not quiz:
+        flash("Quiz does not exist!")
+        return redirect(url_for("quiz"))
+    
+    return render_template("quiz/delete.html", quiz=quiz)
+
+
+@app.route("/quiz/<int:id>/delete", methods=["POST"])
+@admin_required
+def delete_quiz_post(id):
+    quiz = Quiz.query.get(id)
+
+    if not quiz:
+        flash("Quiz does not exist!")
+        return redirect(url_for("quiz"))
+    
+    db.session.delete(quiz)
+    db.session.commit()
+    flash("Quiz deleted successfully!")
+    return redirect(url_for("quiz"))

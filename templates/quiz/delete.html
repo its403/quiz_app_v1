@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h1>Delete Quiz</h1>
+    <h3>Are you sure you want to delete <strong>{{ quiz.chapter.name }}</strong> quiz?</h3>
+    <hr>
+    <form action="" method="post">
+        <button type="submit">
+            Delete Quiz
+        </button>
+    </form>
+{% endblock %}
