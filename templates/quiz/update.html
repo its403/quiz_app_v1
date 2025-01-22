@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h1>Update Quiz</h1>
+    <h3>{{ quiz.chapter.subject.name }} | {{ quiz.chapter.name }}</h3>
+    <hr>
+    <form action="" method="post">
+        <label for="date">Date</label>
+        <input type="date" name="date">
+
+        <label for="duration">Duration (in minutes)</label>
+        <input type="number" name="duration" step="30" min="30" max="180">
+
+        <button type="submit">
+            Update Quiz
+        </button>
+    </form>
+{% endblock %}

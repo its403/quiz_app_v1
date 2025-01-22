@@ -391,3 +391,41 @@ def view_quiz(id):
     quiz = Quiz.query.get(id)
 
     return render_template("quiz/view.html", quiz=quiz)
+
+
+@app.route("/quiz/<int:id>/update")
+@admin_required
+def update_quiz(id):
+    quiz = Quiz.query.get(id)
+
+    if not quiz:
+        flash("Quiz does not exist!")
+        return redirect(url_for("quiz"))
+    
+    return render_template("quiz/update.html", quiz=quiz)
+
+
+@app.route("/quiz/<int:id>/update", methods=["POST"])
+@admin_required
+def update_quiz_post(id):
+    quiz = Quiz.query.get(id)
+
+    if not quiz:
+        flash("Quiz does not exist!")
+        return redirect(url_for("quiz"))
+    
+    date_html_format = request.form.get("date")
+    duration = request.form.get("duration")
+
+    if not date_html_format or not duration:
+        flash("Please fill all the fields!")
+        return redirect(url_for("update_quiz", id=id))
+    
+    date = datetime.strptime(date_html_format, "%Y-%m-%d").date()
+
+    quiz.date_of_quiz = date
+    quiz.duration = duration
+
+    db.session.commit()
+    flash("Quiz updated successfully!")
+    return redirect(url_for("quiz"))

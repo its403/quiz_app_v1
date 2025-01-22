@@ -1,7 +1,12 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    {{ quiz.chapter.subject.name }} | {{ quiz.chapter.name }}
+    {{ quiz.chapter.subject.name }} | {{ quiz.chapter.name }} |
+    <a href="{{ url_for('update_quiz', id=quiz.id) }}">Edit</a>
+    <hr>
+    Date of quiz: {{ quiz.date_of_quiz }}<br>
+    Duration of quiz: {{ quiz.duration }} Minutes
+    <hr>
     {% for ques in quiz.questions %}
         {{ ques.ques_statement }}
     {% endfor %}
