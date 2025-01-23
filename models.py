@@ -60,9 +60,13 @@ class Quiz(db.Model):
 class Questions(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     quiz_id = db.Column(db.Integer, db.ForeignKey('quiz.id'), nullable=False)
+    ques_title = db.Column(db.String, nullable=False)
     ques_statement = db.Column(db.String, nullable=False)
-    option = db.Column(db.String, nullable=True)
-    answer = db.Column(db.String, nullable=True)
+    option_a = db.Column(db.String, nullable=False)
+    option_b = db.Column(db.String, nullable=False)    
+    option_c = db.Column(db.String, nullable=False)        
+    option_d = db.Column(db.String, nullable=False)
+    answer = db.Column(db.String, nullable=False)
     marks = db.Column(db.Integer, nullable=False)
 
     quiz = db.relationship('Quiz', back_populates='questions')
