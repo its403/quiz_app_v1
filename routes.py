@@ -456,3 +456,48 @@ def delete_quiz_post(id):
     db.session.commit()
     flash("Quiz deleted successfully!")
     return redirect(url_for("quiz"))
+
+
+# CRUD Questions
+@app.route("/quiz/<int:quiz_id>/question/add")
+@admin_required
+def add_question(quiz_id):
+    quiz = Quiz.query.get(quiz_id)
+
+    if not quiz:
+        flash("Quiz does not exist!")
+        return redirect(url_for("quiz"))
+    
+    return render_template("question/add.html", quiz=quiz)
+
+
+@app.route("/quiz/<int:quiz_id>/question/add", methods=["POST"])
+@admin_required
+def add_question_post(quiz_id):
+    quiz = Quiz.query.get(quiz_id)
+
+    if not quiz:
+        flash("Quiz does not exist!")
+        return redirect(url_for("quiz"))
+    
+    ques_title = request.form.get("ques_title")
+    ques_statement = request.form.get("ques_statement")
+    marks = request.form.get("marks")
+    option_a = request.form.get("option_a")
+    option_b = request.form.get("option_b")
+    option_c = request.form.get("option_c")
+    option_d = request.form.get("option_d")
+    answer = request.form.get("answer")
+
+    # return (f"{ques_title},{ques_statement},{marks},{option_a},{option_b},{option_c},{option_d},{answer}")
+    if not ques_title or not ques_statement or not marks or not option_a or not option_b or not option_c or not option_d or not answer:
+        flash("Please fill all the fields!")
+        return redirect(url_for("add_question", quiz_id=quiz_id))
+    
+    ques = Questions(quiz_id=quiz_id, ques_title=ques_title, ques_statement=ques_statement, option_a=option_a, option_b=option_b, option_c=option_c, option_d=option_d, answer=answer, marks=marks)
+
+    db.session.add(ques)
+    db.session.commit()
+
+    flash("New question added successfully!")
+    return redirect(url_for("add_question", quiz_id=quiz_id))

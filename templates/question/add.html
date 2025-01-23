@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h1>New Question</h1>
+    <hr>
+    <form action="" method="post">
+        <label for="ques_title">Question Title</label>
+        <input type="text" name="ques_title">
+        <br>
+        <label for="ques_statement">Question Statement</label>
+        <input type="text" name="ques_statement">
+        <br>
+        <label for="marks">Marks</label>
+        <input type="number" name="marks" min="1" max="5" value="1">
+        <br>
+        <label for="option_a">Option 1.</label>
+        <input type="text" name="option_a">
+        <br>
+        <label for="option_b">Option 2.</label>
+        <input type="text" name="option_b">
+        <br>
+        <label for="option_c">Option 3.</label>
+        <input type="text" name="option_c">
+        <br>
+        <label for="option_d">Option 4.</label>
+        <input type="text" name="option_d">
+        <br>
+        <label for="answer">Correct Option</label>
+        <select name="answer">
+            <option value="option_a">Option 1</option>
+            <option value="option_b">Option 2</option>
+            <option value="option_c">Option 3</option>
+            <option value="option_d">Option 4</option>
+        </select>
+        <br>
+        <button type="submit">
+            Save and Next
+        </button>
+    </form>
+{% endblock %}
