@@ -540,7 +540,7 @@ def update_question_post(id):
     # return (f"{ques_title},{ques_statement},{marks},{option_a},{option_b},{option_c},{option_d},{answer}")
 
     question.ques_title = ques_title
-    question.ques_statment = ques_statement
+    question.ques_statement = ques_statement
     question.option_a = option_a
     question.option_b = option_b
     question.option_c = option_c
