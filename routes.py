@@ -580,3 +580,10 @@ def delete_question_post(id):
 
     flash("Question deleted successfully!")
     return redirect(url_for("quiz"))
+
+
+# Summary 
+@app.route("/admin/summary")
+@admin_required
+def admin_summary():
+    return render_template("admin/summary.html")
