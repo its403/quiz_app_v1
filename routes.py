@@ -501,3 +501,54 @@ def add_question_post(quiz_id):
 
     flash("New question added successfully!")
     return redirect(url_for("add_question", quiz_id=quiz_id))
+
+
+@app.route("/quiz/question/<int:id>/update")
+@admin_required
+def update_question(id):
+    question = Questions.query.get(id)
+
+    if not question:
+        flash("Question does not exist!")
+        return redirect(url_for("quiz"))
+    
+    return render_template("question/update.html", question=question)
+
+
+@app.route("/quiz/question/<int:id>/update", methods=["POST"])
+@admin_required
+def update_question_post(id):
+    question = Questions.query.get(id)
+
+    if not question:
+        flash("Question does not exist!")
+        return redirect(url_for("quiz"))
+    
+    ques_title = request.form.get("ques_title")
+    ques_statement = request.form.get("ques_statement")
+    marks = request.form.get("marks")
+    option_a = request.form.get("option_a")
+    option_b = request.form.get("option_b")
+    option_c = request.form.get("option_c")
+    option_d = request.form.get("option_d")
+    answer = request.form.get("answer")
+
+    if not ques_title or not ques_statement or not marks or not option_a or not option_b or not option_c or not option_d or not answer:
+        flash("Please fill all the fields!")
+        return redirect(url_for("update_question", id=id))
+    
+    # return (f"{ques_title},{ques_statement},{marks},{option_a},{option_b},{option_c},{option_d},{answer}")
+
+    question.ques_title = ques_title
+    question.ques_statment = ques_statement
+    question.option_a = option_a
+    question.option_b = option_b
+    question.option_c = option_c
+    question.option_d = option_d
+    question.answer = answer
+    question.marks = marks
+
+    db.session.commit()
+
+    flash("Question updated successfully!")
+    return redirect(url_for("quiz"))

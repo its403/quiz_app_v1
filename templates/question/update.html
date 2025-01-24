@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h1>Update Question</h1>
+    <hr>
+    <form action="" method="post">
+        <label for="ques_title">Question Title</label>
+        <input type="text" name="ques_title" value="{{ question.ques_title }}">
+        <br>
+        <label for="ques_statement">Question Statement</label>
+        <textarea name="ques_statement" id="ques_statement" rows="3" cols="50">{{ question.ques_statement }}</textarea>
+        <br>
+        <label for="marks">Marks</label>
+        <input type="number" name="marks" min="1" max="5" value="{{ question.marks }}">
+        <br>
+        <label for="option_a">Option 1.</label>
+        <input type="text" name="option_a" value="{{ question.option_a }}">
+        <br>
+        <label for="option_b">Option 2.</label>
+        <input type="text" name="option_b" value="{{ question.option_b }}">
+        <br>
+        <label for="option_c">Option 3.</label>
+        <input type="text" name="option_c" value="{{ question.option_c }}">
+        <br>
+        <label for="option_d">Option 4.</label>
+        <input type="text" name="option_d" value="{{ question.option_d }}">
+        <br>
+        <label for="answer">Correct Option</label>
+        <select name="answer">
+            <option value="option_a">Option 1</option>
+            <option value="option_b">Option 2</option>
+            <option value="option_c">Option 3</option>
+            <option value="option_d">Option 4</option>
+        </select>
+        <br>
+        <button type="submit">
+            Update
+        </button>
+    </form>
+{% endblock %}

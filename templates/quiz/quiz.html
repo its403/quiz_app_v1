@@ -6,7 +6,23 @@
     <div>
         {% for quiz in quizzes %}
             <a href="{{ url_for('view_quiz', id=quiz.id) }}"><strong>Quiz on {{ quiz.chapter.name }}</strong></a>
-            <br>
+            <table>
+                <thead>
+                    <th>Question Title</th>
+                    <th>Actions</th>
+                </thead>
+                <tbody>
+                    {% for question in quiz.questions %}
+                        <tr>
+                            <td>{{ question.ques_title }}</td>
+                            <td>
+                                <a href="{{ url_for('update_question', id=question.id) }}">Edit</a>
+                                <a href="">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
             <a href="{{ url_for('add_question', quiz_id=quiz.id ) }}">+ Question</a>
             <hr>
         {% endfor %}
