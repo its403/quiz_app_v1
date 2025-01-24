@@ -552,3 +552,31 @@ def update_question_post(id):
 
     flash("Question updated successfully!")
     return redirect(url_for("quiz"))
+
+
+@app.route("/quiz/question/<int:id>/delete")
+@admin_required
+def delete_question(id):
+    question = Questions.query.get(id)
+
+    if not question:
+        flash("Question does not exist!")
+        return redirect(url_for("quiz"))
+    
+    return render_template("question/delete.html", question=question)
+
+
+@app.route("/quiz/question/<int:id>/delete", methods=["POST"])
+@admin_required
+def delete_question_post(id):
+    question = Questions.query.get(id)
+
+    if not question:
+        flash("Question does not exist!")
+        return redirect(url_for("quiz"))
+    
+    db.session.delete(question)
+    db.session.commit()
+
+    flash("Question deleted successfully!")
+    return redirect(url_for("quiz"))

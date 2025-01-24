@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h1>Are you sure you want to delete {{ question.ques_title }} question?</h1>
+    <hr>
+    <form action="" method="post">
+        <button type="submit">
+            Delete
+        </button>
+    </form>
+{% endblock %}
