@@ -8,15 +8,21 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 {% if "user_id" in session %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('quiz') }}">Quiz</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('admin_summary') }}">Summary</a>
-                </li>          
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
-                </li>
+                    {% if session["is_admin"] == True %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('quiz') }}">Quiz</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_summary') }}">Summary</a>
+                        </li>          
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                        </li>
+                    {% endif %}
                 {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('login') }}">Login</a>

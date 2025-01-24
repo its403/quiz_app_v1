@@ -109,6 +109,7 @@ def login_post():
         return redirect(url_for("login"))
 
     session["user_id"] = user.id
+    session["is_admin"] = user.is_admin
 
     flash(f"{user.username} successfully logged in!")
 
