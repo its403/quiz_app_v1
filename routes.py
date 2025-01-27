@@ -588,3 +588,12 @@ def delete_question_post(id):
 @admin_required
 def admin_summary():
     return render_template("admin/summary.html")
+
+
+# User Side Logic
+@app.route("/upcoming-quiz")
+@auth_required
+def upcoming_quiz():
+    quizzes = Quiz.query.all()
+
+    return render_template("upcoming_quiz.html", quizzes=quizzes)

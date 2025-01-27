@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="conatiner">
+        <h2>Upcoming Quizzes</h2>
+        <hr>
+        <table>
+            <thead>
+                <th>S.no</th>
+                <th>No. of Questions</th>
+                <th>Date</th>
+                <th>Duration</th>
+                <th>Action</th>
+            </thead>
+            <tbody>
+                {% for quiz in quizzes %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ quiz.questions|length }}</td>
+                        <td>{{ quiz.date_of_quiz }}</td>
+                        <td>{{ quiz.duration }}</td>
+                        <td>
+                            <a href="">View</a>
+                            <a href="">Start</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
