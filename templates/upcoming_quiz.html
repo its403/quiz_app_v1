@@ -20,7 +20,7 @@
                         <td>{{ quiz.date_of_quiz }}</td>
                         <td>{{ quiz.duration }}</td>
                         <td>
-                            <a href="">View</a>
+                            <a href="{{ url_for('view_upcoming_quiz', id=quiz.id) }}">View</a>
                             <a href="">Start</a>
                         </td>
                     </tr>

@@ -1,0 +1,9 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+        Subject {{ quiz.chapter.subject.name }} <br>
+        Chapter {{ quiz.chapter.name }} <br>
+        No. of Questions {{ quiz.questions|length }} <br>
+        Date of Quiz {{ quiz.date_of_quiz }} <br>
+        Duration {{ quiz.duration }} <br>
+{% endblock %}

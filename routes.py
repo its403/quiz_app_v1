@@ -597,3 +597,15 @@ def upcoming_quiz():
     quizzes = Quiz.query.all()
 
     return render_template("upcoming_quiz.html", quizzes=quizzes)
+
+
+@app.route("/upcoming-quiz/<int:id>")
+@auth_required
+def view_upcoming_quiz(id):
+    quiz = Quiz.query.get(id)
+
+    if not quiz:
+        flash("Quiz does not exist!")
+        return redirect(url_for("upcoming_quiz"))
+    
+    return render_template("view_quiz.html", quiz=quiz)
