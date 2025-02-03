@@ -21,7 +21,7 @@
                         <td>{{ quiz.duration }}</td>
                         <td>
                             <a href="{{ url_for('view_upcoming_quiz', id=quiz.id) }}">View</a>
-                            <a href="">Start</a>
+                            <a href="{{ url_for('quiz_start', id=quiz.id) }}">Start</a>
                         </td>
                     </tr>
                 {% endfor %}

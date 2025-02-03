@@ -4,6 +4,7 @@ from models import db, User, QualificationType, QuizTaker, Subject, Chapter, Qui
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 from datetime import datetime
+import time
 
 
 # Decorators for auth and admin
@@ -609,3 +610,54 @@ def view_upcoming_quiz(id):
         return redirect(url_for("upcoming_quiz"))
     
     return render_template("view_quiz.html", quiz=quiz)
+
+
+@app.route("/quiz-start/<int:id>", methods=["GET"])
+@auth_required
+def quiz_start(id):
+    quiz = Quiz.query.get(id)
+
+    if "quiz_progress" not in session or session.get("quiz_id") != id:
+        session["quiz_progress"] = 0
+        session["score"] = 0
+        session["quiz_id"] = id
+
+    progress = session["quiz_progress"]
+
+    if progress >= len(quiz.questions):
+        return redirect(url_for("result"))
+    
+    current_question = quiz.questions[progress]
+    
+    return render_template("display_question.html", ques=current_question)
+
+
+@app.route("/quiz-start/<int:id>", methods=["POST"])
+@auth_required
+def quiz_start_post(id):
+    quiz = Quiz.query.get(id)
+    progress = session["quiz_progress"]
+
+    if progress >= len(quiz.questions):
+        return "Finished"
+    
+    current_question = quiz.questions[progress]
+    ans = request.form.get("answer")
+    
+    if ans == current_question.answer:
+        session["score"] += current_question.marks
+    
+    session["quiz_progress"] += 1
+    
+    return redirect(url_for("quiz_start", id=id))
+
+
+@app.route("/result")
+@auth_required
+def result():
+    final_score = session["score"]
+    session.pop("quiz_progress")
+    session.pop("score")
+    session.pop("quiz_id")
+
+    return render_template("result.html", final_score=final_score)

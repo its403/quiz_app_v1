@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <hr>
+    <p>{{ ques.ques_statement }}</p>
+    <form action="" method="post">
+        <input type="radio" name="answer" value="option_a">
+        <label for="option_a">{{ ques.option_a }}</label>
+        <br>
+        <input type="radio" name="answer" value="option_b">
+        <label for="option_b">{{ ques.option_b }}</label>
+        <br>
+        <input type="radio" name="answer" value="option_c">
+        <label for="option_c">{{ ques.option_c }}</label>
+        <br>
+        <input type="radio" name="answer" value="option_d">
+        <label for="option_d">{{ ques.option_d }}</label>
+        <br>
+        <button type="submit">
+            Next
+        </button>
+    </form>
+{% endblock %}
