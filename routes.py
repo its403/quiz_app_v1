@@ -679,3 +679,28 @@ def result():
     session.pop("start_time")
 
     return render_template("result.html", final_score=final_score, total_time_taken=total_time_taken)
+
+
+# Search Functionality
+@app.route("/admin/search")
+@admin_required
+def search():
+    parameter = request.args.get("parameter")
+    query = request.args.get("query")
+
+    if not parameter or not query:
+        flash("Please enter something before searching!")
+    
+    return render_template("admin/search.html", parameter=parameter, query=query)
+
+
+@app.route("/search")
+@auth_required
+def search_user():
+    parameter = request.args.get("parameter")
+    query = request.args.get("query")
+
+    if not parameter or not query:
+        flash("Please enter something before searching!")
+
+    return render_template("search_result.html", parameter=parameter, query=query)

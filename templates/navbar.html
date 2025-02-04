@@ -33,5 +33,25 @@
                 {% endif %}
             </ul>
         </div>
+        {% if "user_id" in session and session["is_admin"] %}
+            <form class="d-flex" role="search" action="{{ url_for('search') }}" method="get">
+                <select class="form-select pe-1 m-1" name="parameter">
+                    <option value="uname" selected>User</option>
+                    <option value="sname">Subject</option>
+                    <option value="qname">Quiz</option>
+                </select>
+                <input class="form-control m-1" type="search" name="query" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success m-1" type="submit">Search</button>
+            </form>
+        {% elif "user_id" in session %}
+            <form class="d-flex" role="search" action="{{ url_for('search_user') }}" method="get">
+                <select class="form-select pe-1 m-1" name="parameter">
+                    <option value="sname" selected>Subject</option>
+                    <option value="qname">Quiz</option>
+                </select>
+                <input class="form-control m-1" type="search" name="query" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success m-1" type="submit">Search</button>
+            </form>
+        {% endif %}
     </div>
 </nav>
