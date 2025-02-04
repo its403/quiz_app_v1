@@ -2,8 +2,11 @@
 
 {% block content %}
     <hr>
+    <p>Timer: <span id="timer">{{ mins }}:{{ '%02d' % secs }}</span></p>
+    <hr>
+    <p>Q.no: <span>{{ (session["quiz_progress"])+1 }}/{{ no_of_ques }}</span></p>
     <p>{{ ques.ques_statement }}</p>
-    <form action="" method="post">
+    <form id="quizForm" action="" method="post">
         <input type="radio" name="answer" value="option_a">
         <label for="option_a">{{ ques.option_a }}</label>
         <br>
@@ -16,8 +19,38 @@
         <input type="radio" name="answer" value="option_d">
         <label for="option_d">{{ ques.option_d }}</label>
         <br>
-        <button type="submit">
-            Next
-        </button>
+        {% if session["quiz_progress"] + 1 == no_of_ques %}
+            <button type="submit" name="submit_quiz">
+                Submit
+            </button>
+        {% else %}
+            <button type="submit" name="save">
+                save and Next
+            </button>
+            <button type="submit" name="submit_quiz">
+                Submit
+            </button>
+        {% endif %}
     </form>
+
+    <script>
+        let minutes = parseInt("{{ mins }}");
+        let seconds = parseInt("{{ secs }}");
+        
+        function updateTimer() {
+            if (seconds === 0) {
+                if (minutes === 0) {
+                    document.getElementById("quizForm").submit();
+                    return;
+                }
+                minutes--;
+                seconds = 59;
+            } else {
+                seconds--;
+            }
+            document.getElementById("timer").textContent = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+        }
+
+        setInterval(updateTimer, 1000);
+    </script>
 {% endblock %}

@@ -621,15 +621,25 @@ def quiz_start(id):
         session["quiz_progress"] = 0
         session["score"] = 0
         session["quiz_id"] = id
+        session["start_time"] = int(time.time())
+    
+    elapsed_time = int(time.time()) - session["start_time"]
+    remaining_time = max(quiz.duration * 60 - elapsed_time, 0)
+    remaining_minutes = remaining_time//60
+    remaining_seconds = remaining_time%60
 
     progress = session["quiz_progress"]
 
     if progress >= len(quiz.questions):
+        session["time_taken"] = quiz.duration - (remaining_time//60)
         return redirect(url_for("result"))
+    
     
     current_question = quiz.questions[progress]
     
-    return render_template("display_question.html", ques=current_question)
+    no_of_ques = len(quiz.questions)
+
+    return render_template("display_question.html", ques=current_question, mins=remaining_minutes, secs=remaining_seconds, no_of_ques=no_of_ques)
 
 
 @app.route("/quiz-start/<int:id>", methods=["POST"])
@@ -638,8 +648,14 @@ def quiz_start_post(id):
     quiz = Quiz.query.get(id)
     progress = session["quiz_progress"]
 
-    if progress >= len(quiz.questions):
-        return "Finished"
+    if "submit_quiz" in request.form:
+        current_question = quiz.questions[progress]
+        ans = request.form.get("answer")
+    
+        if ans == current_question.answer:
+            session["score"] += current_question.marks
+        
+        return redirect(url_for("result"))
     
     current_question = quiz.questions[progress]
     ans = request.form.get("answer")
@@ -656,8 +672,10 @@ def quiz_start_post(id):
 @auth_required
 def result():
     final_score = session["score"]
+    total_time_taken = session["time_taken"]
     session.pop("quiz_progress")
     session.pop("score")
     session.pop("quiz_id")
+    session.pop("start_time")
 
-    return render_template("result.html", final_score=final_score)
+    return render_template("result.html", final_score=final_score, total_time_taken=total_time_taken)
