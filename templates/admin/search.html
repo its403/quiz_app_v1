@@ -1,6 +1,68 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    {{ parameter }}
-    {{ query }}
+    {% if parameter == "uname" %}
+        <h1>User Search</h1>
+        <hr>
+        <table>
+            <thead>
+                <th>User ID</th>
+                <th>Username</th>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% elif parameter == "sname" %}
+        <h1>Subject Search</h1>
+        <hr>
+        <table>
+            <thead>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>No. of Chapters</th>
+            </thead>
+            <tbody>
+                {% for subject in subjects %}
+                    <tr>
+                        <td>{{ subject.id }}</td>
+                        <td>{{ subject.name }}</td>
+                        <td>{{ subject.description }}</td>
+                        <td>{{ subject.chapters|length }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% elif parameter == "qname" %}
+        <h1>Quiz Search</h1>
+        <hr>
+        <table>
+            <thead>
+                <th>Quiz ID</th>
+                <th>Chapter Name</th>
+                <th>No. of Questions</th>
+                <th>Date of Quiz</th>
+                <th>Duration (in minutes)</th>
+            </thead>
+            <tbody>
+                {% for quiz in quizzes %}
+                    <tr>
+                        <td>{{ quiz.id }}</td>
+                        <td>{{ quiz.chapter.name }}</td>
+                        <td>{{ quiz.questions|length }}</td>
+                        <td>{{ quiz.date_of_quiz }}</td>
+                        <td>{{ quiz.duration }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% elif not query and parameter == None %}
+        <h1>Search Page</h1>
+    {% endif %}
 {% endblock %}

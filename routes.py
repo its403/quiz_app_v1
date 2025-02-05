@@ -690,6 +690,18 @@ def search():
 
     if not parameter or not query:
         flash("Please enter something before searching!")
+
+    if not query:
+        return render_template("admin/search.html", query=query, parameter=None)
+    elif parameter == "uname":
+        users = User.query.filter(User.username.ilike(f'%{query}%')).all()
+        return render_template("admin/search.html", parameter=parameter, users=users)
+    elif parameter == "sname":
+        subjects = Subject.query.filter(Subject.name.ilike(f'%{query}%')).all()
+        return render_template("admin/search.html", parameter=parameter, subjects=subjects)
+    elif parameter == "qname":
+        quizzes = Quiz.query.join(Chapter).filter(Chapter.name.ilike(f'%{query}%')).all()
+        return render_template("admin/search.html", parameter=parameter, quizzes=quizzes)
     
     return render_template("admin/search.html", parameter=parameter, query=query)
 
