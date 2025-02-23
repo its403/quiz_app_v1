@@ -6,30 +6,23 @@ from werkzeug.security import generate_password_hash
 
 db = SQLAlchemy(app)
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String, unique=True, nullable=False)
-    password_hash = db.Column(db.String, nullable=False)
-    is_active = db.Column(db.Boolean, default=True, nullable=False)
-    is_admin = db.Column(db.Boolean, default=False, nullable=False)
-
-    quiz_taker = db.relationship('QuizTaker', back_populates='user')
-    scores = db.relationship('Score', back_populates='user')
-
 class QualificationType(Enum):
     HIGH_SCHOOL = "High School"
     BACHELORS = "Bachelors"
     MASTERS = "Masters"
     DOCTRATE = "Doctrate"
 
-class QuizTaker(db.Model):
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, unique=True)
+    username = db.Column(db.String, unique=True, nullable=False)
+    password_hash = db.Column(db.String, nullable=False)
     name = db.Column(db.String, nullable=False)
     qualification = db.Column(db.Enum(QualificationType), nullable=False)
+    dob = db.Column(db.Date)
+    is_active = db.Column(db.Boolean, default=True, nullable=False)
+    is_admin = db.Column(db.Boolean, default=False, nullable=False)
 
-    user = db.relationship('User', back_populates='quiz_taker')
-    scores = db.relationship('Score', back_populates='quiz_taker')
+    scores = db.relationship('Score', back_populates='user')
 
 class Subject(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -75,13 +68,11 @@ class Score(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     quiz_id = db.Column(db.Integer, db.ForeignKey('quiz.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    quiz_taker_id = db.Column(db.Integer, db.ForeignKey('quiz_taker.id'), nullable=False)
     time_taken = db.Column(db.DateTime, default=datetime.now)
     total_score = db.Column(db.Integer, nullable=False)
 
     user = db.relationship('User', back_populates='scores')
     quiz = db.relationship('Quiz', back_populates='scores')
-    quiz_taker = db.relationship('QuizTaker', back_populates='scores')
 
 with app.app_context():
     db.create_all()
@@ -91,7 +82,7 @@ with app.app_context():
     if not admin:
         pass_hash = generate_password_hash("admin")
 
-        admin = User(username="admin", password_hash=pass_hash, is_admin=True)
+        admin = User(username="admin", password_hash=pass_hash, name="Admin", qualification="DOCTRATE", dob=None, is_admin=True)
 
         db.session.add(admin)
         db.session.commit()
