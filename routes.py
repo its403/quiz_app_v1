@@ -1,6 +1,6 @@
 from app import app
 from flask import render_template, redirect, flash, request, url_for, session
-from models import db, User, QualificationType, QuizTaker, Subject, Chapter, Quiz, Questions, Score
+from models import db, User, QualificationType, Subject, Chapter, Quiz, Questions, Score
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 from datetime import datetime
@@ -61,10 +61,15 @@ def register_post():
     username = request.form.get("username")
     password = request.form.get("password")
     confirm_password = request.form.get("confirm_password")
+    name = request.form.get("name")
+    qualification = request.form.get("qualification")
+    dob = request.form.get("dob")
 
-    if not username or not password or not confirm_password:
+    if not username or not password or not confirm_password or not name or not qualification or not dob:
         flash("Please fill out all the fields!")
         return redirect(url_for("register"))
+
+    dob = datetime.strptime(dob, "%Y-%m-%d").date()
 
     if confirm_password != password:
         flash("Please enter same password for the both fields!")
@@ -75,12 +80,15 @@ def register_post():
     if user:
         flash("Username already exists!")
         return redirect(url_for("register"))
-    
+
     pass_hash = generate_password_hash(password)
 
-    new_user = User(username=username, password_hash=pass_hash)
+    new_user = User(username=username, password_hash=pass_hash, name=name, qualification=qualification, dob=dob)
     db.session.add(new_user)
     db.session.commit()
+
+    flash("Registered Successfully!")
+    
     return redirect(url_for("login"))
 
 
