@@ -18,7 +18,7 @@ class User(db.Model):
     password_hash = db.Column(db.String, nullable=False)
     name = db.Column(db.String, nullable=False)
     qualification = db.Column(db.Enum(QualificationType), nullable=False)
-    dob = db.Column(db.Date)
+    dob = db.Column(db.Date, nullable=False)
     is_active = db.Column(db.Boolean, default=True, nullable=False)
     is_admin = db.Column(db.Boolean, default=False, nullable=False)
 
@@ -43,8 +43,8 @@ class Chapter(db.Model):
 class Quiz(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     chapter_id = db.Column(db.Integer, db.ForeignKey('chapter.id'), nullable=False)
-    date_of_quiz = db.Column(db.Date)
-    duration = db.Column(db.Integer)
+    date_of_quiz = db.Column(db.Date, nullable=False)
+    duration = db.Column(db.Integer, nullable=False)
 
     chapter = db.relationship('Chapter', back_populates='quizzes')
     questions = db.relationship('Questions', back_populates='quiz')
@@ -68,7 +68,7 @@ class Score(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     quiz_id = db.Column(db.Integer, db.ForeignKey('quiz.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    time_taken = db.Column(db.DateTime, default=datetime.now)
+    time_taken = db.Column(db.Integer, nullable=False)
     total_score = db.Column(db.Integer, nullable=False)
 
     user = db.relationship('User', back_populates='scores')
