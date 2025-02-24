@@ -630,7 +630,8 @@ def quiz_start(id):
         session["score"] = 0
         session["quiz_id"] = id
         session["start_time"] = int(time.time())
-    
+        session["time_taken"] = 0
+
     elapsed_time = int(time.time()) - session["start_time"]
     remaining_time = max(quiz.duration * 60 - elapsed_time, 0)
     remaining_minutes = remaining_time//60
@@ -639,12 +640,10 @@ def quiz_start(id):
     progress = session["quiz_progress"]
 
     if progress >= len(quiz.questions):
-        session["time_taken"] = quiz.duration - (remaining_time//60)
         return redirect(url_for("result"))
-    
-    
+
     current_question = quiz.questions[progress]
-    
+
     no_of_ques = len(quiz.questions)
 
     return render_template("display_question.html", ques=current_question, mins=remaining_minutes, secs=remaining_seconds, no_of_ques=no_of_ques)
@@ -657,36 +656,60 @@ def quiz_start_post(id):
     progress = session["quiz_progress"]
 
     if "submit_quiz" in request.form:
+        time_left = request.form.get("remaining_time")
         current_question = quiz.questions[progress]
         ans = request.form.get("answer")
-    
+
+        time_taken = quiz.duration * 60 - int(time_left)
+        
+        session["time_taken"] = time_taken
+        
         if ans == current_question.answer:
             session["score"] += current_question.marks
         
         return redirect(url_for("result"))
-    
+
     current_question = quiz.questions[progress]
     ans = request.form.get("answer")
-    
+
     if ans == current_question.answer:
         session["score"] += current_question.marks
-    
+
     session["quiz_progress"] += 1
-    
+
     return redirect(url_for("quiz_start", id=id))
 
 
 @app.route("/result")
 @auth_required
 def result():
-    final_score = session["score"]
+    quiz_id = session["quiz_id"]
+    quiz = Quiz.query.get(quiz_id)
+
+    user_id = session["user_id"]
     total_time_taken = session["time_taken"]
+
+    #if quiz time up then total time taken equals to quiz duration
+    if total_time_taken == 0:
+        total_time_taken = quiz.duration * 60
+
+    mins, secs = divmod(total_time_taken, 60)
+    formatted_time = f"{mins}:{secs:02d} minutes"
+
+    final_score = session["score"]
+
+    score = Score(quiz_id=quiz_id, user_id=user_id, time_taken=total_time_taken, total_score=final_score)
+
+    db.session.add(score)
+    db.session.commit()
+
     session.pop("quiz_progress")
     session.pop("score")
     session.pop("quiz_id")
     session.pop("start_time")
+    session.pop("time_taken")
 
-    return render_template("result.html", final_score=final_score, total_time_taken=total_time_taken)
+    return render_template("result.html", final_score=final_score, total_time_taken=formatted_time)
 
 
 # Search Functionality
