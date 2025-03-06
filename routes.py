@@ -751,3 +751,11 @@ def search_user():
         flash("Please enter something before searching!")
 
     return render_template("search_result.html", parameter=parameter, query=query)
+
+
+# Score Page
+@app.route("/scores")
+@auth_required
+def scores():
+    scores = Score.query.filter_by(user_id=(session["user_id"]))
+    return render_template("scores.html", scores=scores)

@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h1>Score Page</h1>
+    {% for score in scores %}
+        {{ score.quiz.chapter.subject.name }}
+        {{ score.quiz.chapter.name }}
+        {{ score.time_taken }} seconds
+        {{ score.date }}
+        {{ score.total_score }}
+        <hr>
+    {% endfor %}
+{% endblock %}
+
+
