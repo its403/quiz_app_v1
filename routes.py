@@ -694,11 +694,15 @@ def result():
         total_time_taken = quiz.duration * 60
 
     mins, secs = divmod(total_time_taken, 60)
-    formatted_time = f"{mins}:{secs:02d} minutes"
+    formatted_time = f"{mins} minutes {secs:02d} seconds"
 
     final_score = session["score"]
 
-    score = Score(quiz_id=quiz_id, user_id=user_id, time_taken=total_time_taken, total_score=final_score)
+    date = datetime.today().strftime('%Y-%m-%d')
+
+    date_quiz_attempted = datetime.strptime(date, "%Y-%m-%d").date()
+
+    score = Score(quiz_id=quiz_id, user_id=user_id, time_taken=total_time_taken, total_score=final_score, date=date_quiz_attempted)
 
     db.session.add(score)
     db.session.commit()

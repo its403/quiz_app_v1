@@ -70,6 +70,7 @@ class Score(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     time_taken = db.Column(db.Integer, nullable=False)
     total_score = db.Column(db.Integer, nullable=False)
+    date = db.Column(db.Date, nullable=False)
 
     user = db.relationship('User', back_populates='scores')
     quiz = db.relationship('Quiz', back_populates='scores')
@@ -82,7 +83,11 @@ with app.app_context():
     if not admin:
         pass_hash = generate_password_hash("admin")
 
-        admin = User(username="admin", password_hash=pass_hash, name="Admin", qualification="DOCTRATE", dob=None, is_admin=True)
+        dob = datetime.today().strftime('%Y-%m-%d')
+
+        date = datetime.strptime(dob, "%Y-%m-%d").date()
+
+        admin = User(username="admin", password_hash=pass_hash, name="Admin", qualification="DOCTRATE", dob=date, is_admin=True)
 
         db.session.add(admin)
         db.session.commit()
