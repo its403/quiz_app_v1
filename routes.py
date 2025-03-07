@@ -596,7 +596,20 @@ def delete_question_post(id):
 @app.route("/admin/summary")
 @admin_required
 def admin_summary():
-    return render_template("admin/summary.html")
+    chapter_scores = (
+        db.session.query(
+            Chapter.name,
+            db.func.max(Score.total_score).label("max_score")
+        )
+        .join(Quiz, Quiz.chapter_id == Chapter.id)
+        .join(Score, Score.quiz_id == Quiz.id)
+        .group_by(Chapter.name)
+        .all()
+    )
+
+    chapters = [row.name for row in chapter_scores]
+    scores = [row.max_score for row in chapter_scores]
+    return render_template("admin/summary.html", chapters=chapters, scores=scores)
 
 
 # User Side Logic
