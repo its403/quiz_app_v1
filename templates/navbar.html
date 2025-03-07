@@ -45,13 +45,30 @@
             </form>
         {% elif "user_id" in session %}
             <form class="d-flex" role="search" action="{{ url_for('search_user') }}" method="get">
-                <select class="form-select pe-1 m-1" name="parameter">
+                <select class="form-select m-1" id="searchParameter" name="parameter" onchange="updatePlaceholder()">
                     <option value="sname" selected>Subject</option>
                     <option value="qname">Quiz</option>
                 </select>
-                <input class="form-control m-1" type="search" name="query" placeholder="Search" aria-label="Search">
+                <input class="form-control m-1" type="date" id="searchInput" name="query" placeholder="Enter Date" aria-label="Search">
                 <button class="btn btn-outline-success m-1" type="submit">Search</button>
             </form>
         {% endif %}
     </div>
 </nav>
+
+<script>
+    function updatePlaceholder() {
+        let searchInput = document.getElementById("searchInput");
+        let searchParameter = document.getElementById("searchParameter").value;
+
+        if (searchParameter === "sname") {
+            searchInput.placeholder = "Enter Date";
+            searchInput.type = "date";
+        } else {
+            searchInput.placeholder = "Enter Score";
+            searchInput.type = "number";
+            searchInput.min = 0;
+        }
+
+    }
+</script>

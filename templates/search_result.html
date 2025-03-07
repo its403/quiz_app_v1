@@ -1,6 +1,65 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    {{ parameter }}
-    {{ query }}
+    {% if parameter == "sname" %}
+        <h1>Subject Search</h1>
+        <hr>
+        {% if subjects == [] %}
+            <p>no results found!</p>
+        {% else %}
+        <table>
+            <thead>
+                <th>Subject Name</th>
+                <th>Chapter Name</th>
+                <th>Quiz Date</th>
+            </thead>
+            <tbody>
+                {% for subject in subjects %}
+                {% for chapter in subject.chapters %}
+                {% for quiz in chapter.quizzes %}
+                    <tr>
+                        <td>{{ subject.name }}</td>
+                        <td>{{ chapter.name }}</td>
+                        <td>{{ quiz.date_of_quiz }}</td>
+                    </tr>
+                {% endfor %}
+                {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    {% elif parameter == "qname" %}
+        <h1>Quiz Score Search</h1>
+        <hr>
+        {% if quizzes == [] %}
+            <p>No results found!</p>
+        {% else %}
+        <table>
+            <thead>
+                <th>Chapter Name</th>
+                <th>Total Time Taken</th>
+                <th>Total Score</th>
+                <th>Date of Quiz</th>
+            </thead>
+            <tbody>
+                {% for quiz in quizzes %}
+                {% for score in quiz.scores %}
+                    {% if score.user_id == session["user_id"] %}
+                        {% if score.total_score == query_score %}
+                        <tr>
+                            <td>{{ quiz.chapter.name }}</td>
+                            <td>{{ score.time_taken }}</td>
+                            <td>{{ score.total_score }}</td>
+                            <td>{{ score.date }}</td>
+                        </tr>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    {% else %}
+        
+    {% endif %}
 {% endblock %}

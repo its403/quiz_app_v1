@@ -750,7 +750,25 @@ def search_user():
     if not parameter or not query:
         flash("Please enter something before searching!")
 
-    return render_template("search_result.html", parameter=parameter, query=query)
+    if not query:
+        return render_template("search_result.html", parameter=None, query=query)
+    elif parameter == "sname":
+        try:
+            quiz_date = datetime.strptime(query, "%Y-%m-%d").date()
+            subjects = (Subject.query.join(Chapter).join(Quiz).filter(Quiz.date_of_quiz == quiz_date).all())
+        except ValueError:
+            flash("Invalid date format. Use YYYY-MM-DD")
+            subjects = []
+        return render_template("search_result.html", parameter=parameter, subjects=subjects)
+    elif parameter == "qname":
+        try:
+            score = int(query)
+            print(score)
+            quizzes = (Quiz.query.join(Score).filter(Score.total_score == score).all())
+        except ValueError:
+            flash("Invalid score. Please enter a number")
+            quizzes = []
+        return render_template("search_result.html", parameter=parameter, quizzes=quizzes, query_score=score)
 
 
 # Score Page
