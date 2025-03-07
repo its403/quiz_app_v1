@@ -790,3 +790,27 @@ def search_user():
 def scores():
     scores = Score.query.filter_by(user_id=(session["user_id"]))
     return render_template("scores.html", scores=scores)
+
+
+# Summary for user
+@app.route("/summary")
+@auth_required
+def summary_user():
+    user_id = session["user_id"]
+
+    chapter_score = (
+            db.session.query(
+        Chapter.name,
+        db.func.max(Score.total_score).label("max_score")
+    )
+    .join(Quiz, Quiz.chapter_id == Chapter.id)
+    .join(Score, Score.quiz_id == Quiz.id)
+    .filter(Score.user_id == user_id)
+    .group_by(Chapter.name)
+    .all()
+    )
+
+    chapters = [chapter.name for chapter in chapter_score]
+    scores = [score.max_score for score in chapter_score]
+
+    return render_template("summary_user.html", chapters=chapters, scores=scores)
