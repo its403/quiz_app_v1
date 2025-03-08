@@ -272,7 +272,7 @@ def add_chapter_post(subject_id):
         flash("Please fill all the fields!")
         return redirect(url_for("add_chapter", subject_id=subject_id))
     
-    chapter = Chapter(name=name, description=description, subject_id=subject_id)
+    chapter = Chapter(name=name, description=description, subject_id=sub_id)
 
     db.session.add(chapter)
     db.session.commit()
