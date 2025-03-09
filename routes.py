@@ -616,7 +616,8 @@ def admin_summary():
 @app.route("/upcoming-quiz")
 @auth_required
 def upcoming_quiz():
-    quizzes = Quiz.query.all()
+    date_now = datetime.today().strftime("%Y-%m-%d")
+    quizzes = Quiz.query.filter(Quiz.date_of_quiz >= date_now).all()
 
     return render_template("upcoming_quiz.html", quizzes=quizzes)
 
