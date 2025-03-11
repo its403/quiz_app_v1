@@ -1,31 +1,39 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <h1>Quiz Page</h1>
-    <hr>
-    <div>
-        {% for quiz in quizzes %}
-            <a href="{{ url_for('view_quiz', id=quiz.id) }}"><strong>Quiz on {{ quiz.chapter.name }}</strong></a>
-            <table>
-                <thead>
-                    <th>Question Title</th>
-                    <th>Actions</th>
-                </thead>
-                <tbody>
-                    {% for question in quiz.questions %}
-                        <tr>
-                            <td>{{ question.ques_title }}</td>
-                            <td>
-                                <a href="{{ url_for('update_question', id=question.id) }}">Edit</a>
-                                <a href="{{ url_for('delete_question', id=question.id) }}">Delete</a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <a href="{{ url_for('add_question', quiz_id=quiz.id ) }}">+ Question</a>
-            <hr>
-        {% endfor %}
+    <div class="container w-75 p-3">
+        <h1 class="text-center mb-4 mt-3">Quiz Page</h1>
+        <div class="d-flex flex-column row-gap-4">
+            {% for quiz in quizzes %}
+                <div class="border border-dark-subtle border-4 rounded-4 p-2">
+                <div class="text-center mb-3 mt-3">
+                <a class="btn btn-sm btn-info" href="{{ url_for('view_quiz', id=quiz.id) }}"><strong>Quiz on {{ quiz.chapter.name }}</strong></a>
+                </div>
+                <table class="table table-hover table-bordered border border-3 rounded-4 align-middle">
+                    <thead class="text-center border border-3">
+                        <th>Question Title</th>
+                        <th>Actions</th>
+                    </thead>
+                    <tbody>
+                        {% for question in quiz.questions %}
+                            <tr class="text-center">
+                                <td>{{ question.ques_title }}</td>
+                                <td>
+                                    <a class="btn btn-sm btn-outline-danger" href="{{ url_for('update_question', id=question.id) }}">Edit</a>
+                                    <a class="btn btn-sm btn-outline-danger" href="{{ url_for('delete_question', id=question.id) }}">Delete</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="text-end">
+                    <a class="btn btn-outline-success" href="{{ url_for('add_question', quiz_id=quiz.id ) }}">+ Question</a>
+                </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-3">
+            <a class="btn btn-danger btn-lg" href="{{ url_for('add_quiz') }}">New Quiz</a>
+        </div>
     </div>
-    <a href="{{ url_for('add_quiz') }}">New Quiz</a>
-{% endblock %}
+    {% endblock %}

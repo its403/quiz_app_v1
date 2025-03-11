@@ -1,15 +1,32 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <h1>Score Page</h1>
-    {% for score in scores %}
-        {{ score.quiz.chapter.subject.name }}
-        {{ score.quiz.chapter.name }}
-        {{ score.time_taken }} seconds
-        {{ score.date }}
-        {{ score.total_score }}
-        <hr>
-    {% endfor %}
+    <div class="container-sm w-50 p-3">
+        <h3 class="text-center mb-4 mt-4">Score Page</h3>
+        <table class="table table-hover table-bordered ">
+            <thead class="text-center border border-3">
+                <th>Subject Name</th>
+                <th>Chapter name</th>
+                <th>Time Taken</th>
+                <th>Date</th>
+                <th>Score</th>
+            </thead>
+            <tbody>
+                {% for score in scores %}
+                    <tr class="text-center">
+                        <td>{{ score.quiz.chapter.subject.name }}</td>
+                        <td>{{ score.quiz.chapter.name }}</td>
+                        <td>{{ score.time_taken }}</td>
+                        <td>{{ score.date }}</td>
+                        <td>{{ score.total_score }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-center mt-3">
+            <a class="btn btn-outline-primary" href="{{ url_for('index') }}">Home</a>
+        </div>
+    </div>
 {% endblock %}
 
 

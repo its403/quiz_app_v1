@@ -1,38 +1,45 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <h1>ADMIN DASHBOARD</h1>
-    <hr>
-    <div>
-        {% for subject in subjects %}
-          <strong>{{ subject.name }}  | {{ subject.description }} | </strong>
-          <a href="{{ url_for('view_subject', id=subject.id) }}">View</a>
-          <a href="{{ url_for('update_subject', id=subject.id) }}">Edit</a>
-          <a href="{{ url_for('delete_subject', id=subject.id) }}">Delete</a>
-          <br>
-          <table>
-            <thead>
-              <th>Chapter Name</th>
-              <th>Description</th>
-              <th>Actions</th>
-            </thead>
-            <tbody>
-              {% for chapter in subject.chapters %}
-                <tr>
-                  <td>{{ chapter.name }}</td>
-                  <td>{{ chapter.description }}</td>
-                  <td>
-                    <a href="{{ url_for('view_chapter', id=chapter.id) }}">View</a>
-                    <a href="{{ url_for('update_chapter', id=chapter.id) }}">Edit</a>
-                    <a href="{{ url_for('delete_chapter', id=chapter.id) }}">Delete</a>
-                  </td>
-                </tr>    
-              {% endfor %}
-            </tbody>
-          </table>
-          <a href="{{ url_for('add_chapter', subject_id=subject.id) }}">New Chapter</a>
-          <hr>
-        {% endfor %}
-    </div>
-    <a href="{{ url_for('add_subject') }}">New Subject</a>
+	<div class="container w-50 p-3">
+		<h1 class="mb-4 mt-3 text-center">Subject Dashboard</h1>
+		<div class="d-flex flex-column row-gap-4">
+		{% for subject in subjects %}
+			<div class="border border-dark-subtle border-4 rounded-4 p-2">
+			<div class="text-center mb-3 mt-3">
+				<strong>{{ subject.name }} | {{ subject.description }} | </strong>
+				<a class="btn btn-outline-info btn-sm" href="{{ url_for('view_subject', id=subject.id) }}">View</a>
+				<a class="btn btn-outline-info btn-sm" href="{{ url_for('update_subject', id=subject.id) }}">Edit</a>
+				<a class="btn btn-outline-info btn-sm" href="{{ url_for('delete_subject', id=subject.id) }}">Delete</a>
+			</div>
+			<table class="table table-hover table-bordered  border border-3 rounded-4  align-middle">
+				<thead class="text-center border border-3">
+					<th>Chapter Name</th>
+					<th>Description</th>
+					<th>Actions</th>
+				</thead>
+				<tbody>
+					{% for chapter in subject.chapters %}
+					<tr class="text-center">
+						<td>{{ chapter.name }}</td>
+						<td>{{ chapter.description }}</td>
+						<td>
+							<a class="btn btn-sm btn-outline-danger" href="{{ url_for('view_chapter', id=chapter.id) }}">View</a>
+							<a class="btn btn-sm btn-outline-danger" href="{{ url_for('update_chapter', id=chapter.id) }}">Edit</a>
+							<a class="btn btn-sm btn-outline-danger" href="{{ url_for('delete_chapter', id=chapter.id) }}">Delete</a>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<div class="text-end">
+				<a href="{{ url_for('add_chapter', subject_id=subject.id) }}" class="btn btn-outline-success">+ New Chapter</a>
+			</div>
+			</div>
+		{% endfor %}
+		</div>
+		<div class="text-center mt-3">
+			<a class="btn btn-danger btn-lg" href="{{ url_for('add_subject') }}">+ New Subject</a>
+		</div>
+	</div>
 {% endblock %}

@@ -1,9 +1,30 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-        Subject {{ quiz.chapter.subject.name }} <br>
-        Chapter {{ quiz.chapter.name }} <br>
-        No. of Questions {{ quiz.questions|length }} <br>
-        Date of Quiz {{ quiz.date_of_quiz }} <br>
-        Duration {{ quiz.duration }} <br>
+	<div class="container-sm w-25 p-3">
+		<h3 class="text-center mb-5 mt-5">About Quiz</h3>
+		<div class="input-group mb-3">
+			<span class="input-group-text">Subject Name</span>
+			<input type="text" class="form-control" value="{{ quiz.chapter.subject.name }}" disabled readonly>
+		</div>
+		<div class="input-group mb-3">
+			<span class="input-group-text">Chapter Name</span>
+			<input type="text" class="form-control" value="{{ quiz.chapter.name }}" disabled readonly>
+		</div>
+		<div class="input-group mb-3">
+			<span class="input-group-text"># of Questions</span>
+			<input type="text" class="form-control" value="{{ quiz.questions|length }}" disabled readonly>
+		</div>
+		<div class="input-group mb-3">
+			<span class="input-group-text">Due Date of Quiz</span>
+			<input type="text" class="form-control" value="{{ quiz.date_of_quiz }}" disabled readonly>
+		</div>
+		<div class="input-group mb-3">
+			<span class="input-group-text">Duration (in Minutes)</span>
+			<input type="text" class="form-control" value="{{ quiz.duration }}" disabled readonly>
+		</div>
+		<div class="text-center">
+			<button type="button" class="btn btn-outline-primary" onclick="history.back()">Cancel</button>
+		</div>
+	</div>
 {% endblock %}

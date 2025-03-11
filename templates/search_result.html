@@ -1,14 +1,14 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+<div class="container-sm w-25 p-3">
     {% if parameter == "sname" %}
-        <h1>Subject Search</h1>
-        <hr>
+        <h3 class="text-center mb-4 mt-4">Subject Search</h3>
         {% if subjects == [] %}
-            <p>no results found!</p>
+            <p class="text-center">No results found!</p>
         {% else %}
-        <table>
-            <thead>
+        <table class="table table-hover table-bordered border border-3">
+            <thead class="text-center border border-3">
                 <th>Subject Name</th>
                 <th>Chapter Name</th>
                 <th>Quiz Date</th>
@@ -17,7 +17,7 @@
                 {% for subject in subjects %}
                 {% for chapter in subject.chapters %}
                 {% for quiz in chapter.quizzes %}
-                    <tr>
+                    <tr class="text-center">
                         <td>{{ subject.name }}</td>
                         <td>{{ chapter.name }}</td>
                         <td>{{ quiz.date_of_quiz }}</td>
@@ -29,13 +29,12 @@
         </table>
         {% endif %}
     {% elif parameter == "qname" %}
-        <h1>Quiz Score Search</h1>
-        <hr>
+        <h3 class="text-center mb-4 mt-4">Quiz Score Search</h3>
         {% if quizzes == [] %}
-            <p>No results found!</p>
+            <p class="text-center">No results found!</p>
         {% else %}
-        <table>
-            <thead>
+        <table class="table table-hover table-bordered border border-3">
+            <thead class="text-center border border-3">
                 <th>Chapter Name</th>
                 <th>Total Time Taken</th>
                 <th>Total Score</th>
@@ -45,21 +44,23 @@
                 {% for quiz in quizzes %}
                 {% for score in quiz.scores %}
                     {% if score.user_id == session["user_id"] %}
-                        {% if score.total_score == query_score %}
-                        <tr>
+                    {% if score.total_score == query_score %}
+                        <tr class="text-center">
                             <td>{{ quiz.chapter.name }}</td>
                             <td>{{ score.time_taken }}</td>
                             <td>{{ score.total_score }}</td>
                             <td>{{ score.date }}</td>
                         </tr>
-                        {% endif %}
+                    {% endif %}
                     {% endif %}
                 {% endfor %}
-            {% endfor %}
+                {% endfor %}
             </tbody>
         </table>
         {% endif %}
-    {% else %}
-        
     {% endif %}
+    <div class="text-center mt-4">
+        <a class="btn btn-outline-primary" href="{{ url_for('index') }}">Home</a>
+    </div>
+</div>
 {% endblock %}

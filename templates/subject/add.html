@@ -1,17 +1,21 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<h1>ADD NEW SUBJECT</h1>
-<hr />
-<form action="" method="post">
-  <label for="subject_name">Subject Name</label>
-  <input type="text" name="subject_name" />
-
-  <label for="subject_description">Description</label>
-  <input type="text" name="subject_description" />
-
-  <button type="submit">
-    ADD
-  </button>
-</form>
+	<div class="container-sm w-25 p-3">
+		<h3 class="text-center mb-5 mt-5">Add New Subject</h3>
+		<form action="" method="post">
+			<div class="input-group mb-3">
+				<label for="subject_name" class="input-group-text">Subject Name</label>
+				<input type="text" class="form-control" name="subject_name" required>
+			</div>	
+			<div class="input-group mb-3">
+				<label for="subject_description" class="input-group-text">Description</label>
+				<input type="text" class="form-control" name="subject_description" required>
+			</div>
+			<div class="text-center">
+				<button class="btn btn-outline-primary" type="submit">Add</button>
+				<button type="button" class="btn btn-outline-danger" onclick="history.back()">Cancel</button>
+			</div>
+		</form>
+	</div>
 {% endblock %}

@@ -1,7 +1,18 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <h1>About Chapter</h1>
-    <hr>
-    <h3>{{ chapter.name }} | {{ chapter.description }}</h3>
+    <div class="container-sm w-25 p-3">
+        <h3 class="text-center mb-5 mt-5">About Chapter</h3>
+        <div class="input-group mb-3">
+            <span class="input-group-text">Chapter Name</span>
+            <input type="text" class="form-control" name="" value="{{ chapter.name }}" disabled readonly>
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text">Chapter Description</span>
+            <input type="text" class="form-control" name="" value="{{ chapter.description }}" disabled readonly>
+        </div>
+        <div class="text-center">
+            <button type="button" class="btn btn-outline-primary" onclick="history.back()">Cancel</button>
+        </div>
+    </div>
 {% endblock %}

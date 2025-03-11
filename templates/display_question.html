@@ -1,39 +1,47 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <hr>
-    <p>Timer: <span id="timer">{{ mins }}:{{ '%02d' % secs }}</span></p>
-    <hr>
-    <p>Q.no: <span>{{ (session["quiz_progress"])+1 }}/{{ no_of_ques }}</span></p>
-    <p>{{ ques.ques_statement }}</p>
-    <form id="quizForm" action="" method="post">
-        <input type="hidden" id="remaining_time" name="remaining_time" value="">
-
-        <input type="radio" name="answer" value="option_a">
-        <label for="option_a">{{ ques.option_a }}</label>
-        <br>
-        <input type="radio" name="answer" value="option_b">
-        <label for="option_b">{{ ques.option_b }}</label>
-        <br>
-        <input type="radio" name="answer" value="option_c">
-        <label for="option_c">{{ ques.option_c }}</label>
-        <br>
-        <input type="radio" name="answer" value="option_d">
-        <label for="option_d">{{ ques.option_d }}</label>
-        <br>
-        {% if session["quiz_progress"] + 1 == no_of_ques %}
-            <button type="submit" name="submit_quiz" onclick="storeTime()">
-                Submit
-            </button>
-        {% else %}
-            <button type="submit" name="save" onclick="storeTime()">
-                Save and Next
-            </button>
-            <button type="submit" name="submit_quiz" onclick="storeTime()">
-                Submit
-            </button>
-        {% endif %}
-    </form>
+    <div class="container-sm w-50 p-3 border border-2 border-dark-subtle rounded-5">
+        <h2 class="text-center mb-5 mt-5">Quiz on {{ ques.quiz.chapter.name }}</h2>
+        <div class="row text-center">
+            <div class="col">
+                <p>QNo.<span class="border border-3 rounded-4 py-1 px-3">{{ (session["quiz_progress"])+1 }}/{{ no_of_ques }}</span></p>
+            </div>
+            <div class="col">
+                <span class="border rounded-pill border-3 border-danger-subtle py-1 px-3" id="timer">{{ mins }}:{{ '%02d' % secs }}</span>
+            </div>
+        </div>
+        <div class="text-center border border-3 rounded-4 mt-2 mb-4">
+            {{ ques.ques_statement }}
+        </div>
+        <form id="quizForm" action="" method="post">
+            <input type="hidden" id="remaining_time" name="remaining_time" value="">
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="radio" name="answer" value="option_a">
+                <label class="form-check-label" for="option_a">{{ ques.option_a }}</label>
+            </div>
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="radio" name="answer" value="option_b">
+                <label class="form-check-label" for="option_b">{{ ques.option_b }}</label>
+            </div>
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="radio" name="answer" value="option_c">
+                <label class="form-check-label" for="option_c">{{ ques.option_c }}</label>
+            </div>
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="radio" name="answer" value="option_d">
+                <label class="form-check-label" for="option_d">{{ ques.option_d }}</label>
+            </div>
+            <div class="text-center mt-3 mb-5">
+                {% if session["quiz_progress"] + 1 == no_of_ques %}
+                    <button class="btn btn-outline-danger" type="submit" name="submit_quiz" onclick="storeTime()">Submit</button>
+                {% else %}
+                    <button class="btn btn-outline-primary" type="submit" name="save" onclick="storeTime()">Save and Next</button>
+                    <button class="btn btn-danger" type="submit" name="submit_quiz" onclick="storeTime()">Submit</button>
+                {% endif %}
+            </div>
+        </form>
+    </div>
 
     <script>
         let minutes = parseInt("{{ mins }}");

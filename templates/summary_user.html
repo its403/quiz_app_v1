@@ -1,12 +1,15 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <h1>Summary Dashboard</h1>
-    <hr>
-    <div>
-        <canvas id="myChart"></canvas>
-    </div>
-      
+	<div class="container-sm w-50 p-3">
+		<h2 class="text-center mb-4 mt-4">Summary Dashboard</h1>
+		<div>
+			<canvas id="myChart"></canvas>
+		</div>
+		<div class="text-center mt-4">
+			<a class="btn btn-outline-primary" href="{{ url_for('index') }}">Home</a>
+		</div>
+	</div>      
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       
     <script>

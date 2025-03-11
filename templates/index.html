@@ -1,14 +1,16 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <h1>Welcome to the QuizApp</h1>
-    <div>
-        <a href="{{ url_for('upcoming_quiz') }}">Upcoming Quizzes</a>
+<div class="container w-25 p-3">
+    <h2 class="text-center mb-5 mt-5">Welcome to the QuizApp</h2>
+    <div class="text-center mb-3">
+        <a class="btn btn-outline-primary" href="{{ url_for('upcoming_quiz') }}">Upcoming Quizzes</a>
     </div>
-    <div>
-        <a href="{{ url_for('scores') }}">Scores</a>
+    <div class="text-center mb-3">
+        <a class="btn btn-outline-primary" href="{{ url_for('scores') }}">Scores</a>
     </div>
-    <div>
-        <a href="{{ url_for('summary_user') }}">Dashboard</a>
+    <div class="text-center mb-3">
+        <a class="btn btn-outline-primary" href="{{ url_for('summary_user') }}">Dashboard</a>
     </div>
+</div>
 {% endblock %}

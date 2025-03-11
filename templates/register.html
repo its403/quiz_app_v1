@@ -1,33 +1,64 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<h1>Welcome!<br>Register Here</h1>
-<form action="" method="post">
-    <label for="username">Username</label>
-    <input type="text" name="username">
+    <div class="container-sm w-25 p-3">
+        <h1 class="text-center mb-5 mt-5">Register Here!</h1>
+        <form class="needs-validation" action="" method="post" novalidate>
+            <div class="input-group mb-3">
+                <label for="username" class="input-group-text">Username</label>
+                <input type="text" class="form-control" name="username" required>
+            </div>
+            <div class="input-group mb-3">
+                <label for="password" class="input-group-text">Password</label>
+                <input type="password" class="form-control" name="password" required>
+            </div>
+            <div class="input-group mb-3">
+                <label for="confirm_password" class="input-group-text">Confirm Password</label>
+                <input type="password" class="form-control" name="confirm_password" required>
+            </div>
+            <div class="input-group mb-3">
+                <label for="name" class="input-group-text">Full Name</label>
+                <input type="text" class="form-control" name="name" required>
+            </div>
+            <div class="input-group mb-3">
+                <label for="qualification" class="input-group-text">Qualification</label>
+                <select class="form-select" name="qualification" required>
+                    <option value="HIGH_SCHOOL">High School</option>
+                    <option value="BACHELORS">Bachelors</option>
+                    <option value="MASTERS">Masters</option>
+                    <option value="DOCTRATE">Doctrate</option>
+                </select>
+            </div>
+            <div class="input-group mb-3">
+                <label for="dob" class="input-group-text">Date of Birth</label>
+                <input type="date" class="form-control" name="dob" required>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Register</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
 
-    <label for="password">Password</label>
-    <input type="password" name="password">
-
-    <label for="confirm_password">Confirm Password</label>
-    <input type="password" name="confirm_password">
-
-    <label for="name">Full Name</label>
-    <input type="text" name="name">
-
-    <label for="qualification">Qualification</label>
-    <select name="qualification">
-        <option value="HIGH_SCHOOL">High School</option>
-        <option value="BACHELORS">Bachelors</option>
-        <option value="MASTERS">Masters</option>
-        <option value="DOCTRATE">Doctrate</option>
-    </select>
-
-    <label for="dob">Date of Birth</label>
-    <input type="date" name="dob">
-
-    <button type="submit">
-        Register
-    </button>
-</form>
+{% block script %}
+    <script>
+        (() => {
+            'use strict'
+        
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.needs-validation')
+        
+            // Loop over them and prevent submission
+            Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+                }
+        
+                form.classList.add('was-validated')
+            }, false)
+            })
+        })()
+    </script>
 {% endblock %}

@@ -1,24 +1,29 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <h1>New Quiz</h1>
-    <hr>
-    <form action="" method="post">
-        <label for="chapter_id">Chapter</label>
-        <select name="chapter_id">
-            {% for chapter in chapters %}
-                <option value="{{ chapter.id }}">{{ chapter.subject.name }} | {{ chapter.name }}</option>
-            {% endfor %}
-        </select>
-
-        <label for="date">Date</label>
-        <input type="date" name="date">
-
-        <label for="duration">Duration (in minutes)</label>
-        <input type="number" name="duration" step="30" min="30" max="180" value="60">
-
-        <button type="submit">
-            Add Quiz
-        </button>
-    </form>
+    <div class="container-sm w-25 p-3">
+        <h3 class="text-center mb-5 mt-5">New Quiz</h3>
+        <form action="" method="post">
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="chapter_id">Chapter</label>
+                <select class="form-select" name="chapter_id">
+                    {% for chapter in chapters %}
+                        <option value="{{ chapter.id }}">{{ chapter.subject.name }} | {{ chapter.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="date">Date</label>
+                <input class="form-control" type="date" name="date">
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="duration">Duration (in minutes)</label>
+                <input class="form-control" type="number" name="duration" step="30" min="30" max="180" value="60">
+            </div>
+            <div class="text-center">
+                <button class="btn btn-outline-primary" type="submit">Add Quiz</button>
+                <button type="button" class="btn btn-outline-danger" onclick="history.back()">Cancel</button>
+            </div>
+        </form>
+    </div>
 {% endblock %}

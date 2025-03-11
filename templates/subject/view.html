@@ -1,5 +1,18 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <strong>{{ subject.name }}</strong>
+    <div class="container-sm w-25 p-3">
+        <h3 class="text-center mb-5 mt-5">About Subject</h3>
+        <div class="input-group mb-3">
+            <span class="input-group-text">Subject Name</span>
+            <input type="text" class="form-control" value="{{ subject.name }}" disabled readonly>
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text">Subject Description</span>
+            <input type="text" class="form-control" name="" value="{{ subject.description }}" disabled readonly>
+        </div>
+        <div class="text-center">
+            <button type="button" class="btn btn-outline-primary" onclick="history.back()">Cancel</button>
+        </div>
+    </div>
 {% endblock %}

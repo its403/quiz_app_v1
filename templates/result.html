@@ -1,6 +1,19 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <p>Your final score is: {{ final_score }}</p>
-    <p>Total time taken is: {{ total_time_taken }}</p>
+<div class="container-sm w-25 p-3">
+    <h3 class="text-center mb-4 mt-4">Result Page</h3>
+    <div class="input-group mb-3">
+        <span class="input-group-text">Final Score</span>
+        <input type="text" class="form-control" value="{{ final_score }}" disabled readonly>
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text">Time Taken</span>
+        <input type="text" class="form-control" value="{{ total_time_taken }}" disabled readonly>
+    </div>
+    <div class="text-center">
+        <a class="btn btn-outline-primary" href="{{ url_for('index') }}">Home</a>
+        <a class="btn btn-outline-primary" href="{{ url_for('scores') }}">Score</a>
+    </div>
+</div>
 {% endblock %}
