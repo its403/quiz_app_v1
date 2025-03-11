@@ -626,6 +626,15 @@ def upcoming_quiz():
     return render_template("upcoming_quiz.html", quizzes=quizzes)
 
 
+@app.route("/history")
+@auth_required
+def history():
+    date_now = datetime.today().strftime("%Y-%m-%d")
+    quizzes = Quiz.query.filter(Quiz.date_of_quiz < date_now).all()
+
+    return render_template("history.html", quizzes=quizzes)
+
+
 @app.route("/upcoming-quiz/<int:id>")
 @auth_required
 def view_upcoming_quiz(id):

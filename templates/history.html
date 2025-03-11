@@ -2,22 +2,14 @@
 
 {% block content %}
     <div class="container-sm w-50 p-3 ">
-        <div class="row mb-4 mt-4">
-            <div class="col-10 text-center">
-                <h2 class="">Upcoming Quizzes</h2>
-            </div>
-            <div class="col text-center">
-                <a class="btn btn-outline-primary" href="{{ url_for('history') }}">History</a>
-            </div>
-        </div>
-        <table class="table table-hover table-bordered border border-3">
+            <h2 class="text-center mb-4 mt-4">Old Quizzes</h2>
+            <table class="table table-hover table-bordered border border-3">
             <thead class="text-center border boreder-3">
                 <th>#</th>
                 <th>Chapter Name</th>
                 <th>No. of Questions</th>
                 <th>Due Date</th>
                 <th>Duration (in Minutes)</th>
-                <th>Action</th>
             </thead>
             <tbody>
                 {% for quiz in quizzes %}
@@ -27,10 +19,6 @@
                         <td>{{ quiz.questions|length }}</td>
                         <td>{{ quiz.date_of_quiz }}</td>
                         <td>{{ quiz.duration }}</td>
-                        <td>
-                            <a class="btn btn-sm btn-outline-primary" href="{{ url_for('view_upcoming_quiz', id=quiz.id) }}">View</a>
-                            <a class="btn btn-sm btn-success" href="{{ url_for('quiz_start', id=quiz.id) }}">Start</a>
-                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
