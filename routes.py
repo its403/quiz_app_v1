@@ -116,6 +116,10 @@ def login_post():
     if not check_password_hash(user.password_hash, password):
         flash("Please enter correct password!")
         return redirect(url_for("login"))
+    
+    if not user.is_active:
+        flash("Your account is Blocked!")
+        return redirect(url_for("login"))
 
     session["user_id"] = user.id
     session["is_admin"] = user.is_admin
@@ -815,3 +819,22 @@ def summary_user():
     scores = [score.max_score for score in chapter_score]
 
     return render_template("summary_user.html", chapters=chapters, scores=scores)
+
+
+# User Blocking
+@app.route("/admin/access/<int:id>", methods=["POST"])
+@admin_required
+def access(id):
+    user = User.query.get(id)
+
+    if not user:
+        flash("User not found!")
+        return redirect(url_for("index"))
+
+    user.is_active = not user.is_active
+    
+    db.session.commit()
+
+    flash(f"{user.username} has been {'unblocked' if user.is_active else 'blocked'} successfully!", "success")
+
+    return redirect(url_for('index'))
