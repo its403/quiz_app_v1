@@ -3,6 +3,9 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from enum import Enum
 from werkzeug.security import generate_password_hash
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 db = SQLAlchemy(app)
 
@@ -81,7 +84,9 @@ with app.app_context():
     admin = User.query.filter_by(is_admin=True).first()
 
     if not admin:
-        pass_hash = generate_password_hash("admin")
+        password = os.getenv('ADMIN_PASSWORD')
+
+        pass_hash = generate_password_hash(password)
 
         dob = datetime.today().strftime('%Y-%m-%d')
 
