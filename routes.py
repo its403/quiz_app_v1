@@ -855,4 +855,4 @@ def access(id):
 
     flash(f"{user.username} has been {'unblocked' if user.is_active else 'blocked'} successfully!", "success")
 
-    return redirect(url_for('index'))
+    return redirect(url_for('users'))
