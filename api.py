@@ -1,5 +1,5 @@
 from app import app
-from models import db, Subject
+from models import db, Subject, Chapter
 from flask import request, jsonify
 from flask_marshmallow import Marshmallow
 
@@ -65,3 +65,70 @@ def delete(id):
     db.session.commit()
 
     return subject_schema.jsonify(subject)
+
+
+class ChapterSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'name', 'description', 'subject_id')
+
+chapter_schema = ChapterSchema()
+chapters_schema = ChapterSchema(many=True)
+
+
+@app.route("/api/chapter", methods=["POST"])
+def chapter_post():
+    name = request.json["name"]
+    description = request.json["description"]
+    subject_id = request.json["subject_id"]
+
+    new_chapter = Chapter(name=name, description=description, subject_id=subject_id)
+
+    db.session.add(new_chapter)
+    db.session.commit()
+
+    return chapter_schema.jsonify(new_chapter)
+
+
+@app.route("/api/chapter", methods=["GET"])
+def get_chapters():
+    chapters = Chapter.query.all()
+
+    result = chapters_schema.dump(chapters)
+
+    return jsonify(result)
+
+
+@app.route("/api/chapter/<int:id>", methods=["GET"])
+def get_chapter(id):
+    chapter = Chapter.query.get(id)
+
+    result = chapter_schema.dump(chapter)
+
+    return jsonify(result)
+
+
+@app.route("/api/chapter/<int:id>", methods=["PUT"])
+def put_chapter(id):
+    chapter = Chapter.query.get(id)
+
+    name = request.json["name"]
+    description = request.json["description"]
+    subject_id = request.json["subject_id"]
+
+    chapter.name = name
+    chapter.description = description
+    chapter.subject_id = subject_id
+
+    db.session.commit()
+
+    return chapter_schema.jsonify(chapter)
+
+
+@app.route("/api/chapter/<int:id>", methods=["DELETE"])
+def chapter_delete(id):
+    chapter = Chapter.query.get(id)
+
+    db.session.delete(chapter)
+    db.session.commit()
+
+    return chapter_schema.jsonify(chapter)
