@@ -1,5 +1,5 @@
 from app import app
-from models import db, Subject, Chapter, Quiz
+from models import db, Subject, Chapter, Quiz, Score
 from flask import request, jsonify
 from flask_marshmallow import Marshmallow
 from datetime import datetime
@@ -204,3 +204,39 @@ def quiz_delete(id):
     db.session.commit()
 
     return quiz_schema.jsonify(quiz)
+
+
+class ScoreSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'quiz_id', 'user_id', 'time_taken', 'total_score', 'date')
+
+score_schema = ScoreSchema()
+scores_schema = ScoreSchema(many=True)
+
+
+@app.route("/api/score", methods=["GET"])
+def get_scores():
+    scores = Score.query.all()
+
+    result = scores_schema.dump(scores)
+
+    return jsonify(result)
+
+
+@app.route("/api/score/<int:id>", methods=["GET"])
+def get_score(id):
+    score = Score.query.get(id)
+
+    result = score_schema.dump(score)
+
+    return jsonify(result)
+
+
+@app.route("/api/score/<int:id>", methods=["DELETE"])
+def score_delete(id):
+    score = Score.query.get(id)
+
+    db.session.delete(score)
+    db.session.commit()
+
+    return score_schema.jsonify(score)
