@@ -1,7 +1,8 @@
 from app import app
-from models import db, Subject, Chapter
+from models import db, Subject, Chapter, Quiz
 from flask import request, jsonify
 from flask_marshmallow import Marshmallow
+from datetime import datetime
 
 ma = Marshmallow(app)
 
@@ -132,3 +133,74 @@ def chapter_delete(id):
     db.session.commit()
 
     return chapter_schema.jsonify(chapter)
+
+
+class QuizSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'chapter_id', 'date_of_quiz', 'duration')
+
+quiz_schema = QuizSchema()
+quizzes_schema = QuizSchema(many=True)
+
+
+@app.route("/api/quiz", methods=["POST"])
+def quiz_post():
+    chapter_id = request.json["chapter_id"]
+    date_of_quiz = request.json["date_of_quiz"]
+    duration = request.json["duration"]
+
+    date_of_quiz = datetime.strptime(date_of_quiz, "%Y-%m-%d").date()
+
+    new_quiz = Quiz(chapter_id=chapter_id, date_of_quiz=date_of_quiz, duration=duration)
+
+    db.session.add(new_quiz)
+    db.session.commit()
+
+    return quiz_schema.jsonify(new_quiz)
+
+
+@app.route("/api/quiz", methods=["GET"])
+def get_quizzes():
+    quizzes = Quiz.query.all()
+
+    result = quizzes_schema.dump(quizzes)
+
+    return jsonify(result)
+
+
+@app.route("/api/quiz/<int:id>", methods=["GET"])
+def get_quiz(id):
+    quiz = Quiz.query.get(id)
+
+    result = quiz_schema.dump(quiz)
+
+    return jsonify(result)
+
+
+@app.route("/api/quiz/<int:id>", methods=["PUT"])
+def put_quiz(id):
+    quiz = Quiz.query.get(id)
+
+    chapter_id = request.json["chapter_id"]
+    date_of_quiz = request.json["date_of_quiz"]
+    duration = request.json["duration"]
+
+    date_of_quiz = datetime.strptime(date_of_quiz, "%Y-%m-%d").date()
+
+    quiz.chapter_id = chapter_id
+    quiz.date_of_quiz = date_of_quiz
+    quiz.duration = duration
+
+    db.session.commit()
+
+    return quiz_schema.jsonify(quiz)
+
+
+@app.route("/api/quiz/<int:id>", methods=["DELETE"])
+def quiz_delete(id):
+    quiz = Quiz.query.get(id)
+
+    db.session.delete(quiz)
+    db.session.commit()
+
+    return quiz_schema.jsonify(quiz)
