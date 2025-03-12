@@ -25,14 +25,14 @@ class User(db.Model):
     is_active = db.Column(db.Boolean, default=True, nullable=False)
     is_admin = db.Column(db.Boolean, default=False, nullable=False)
 
-    scores = db.relationship('Score', back_populates='user')
+    scores = db.relationship('Score', back_populates='user', cascade='all, delete-orphan')
 
 class Subject(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     description = db.Column(db.Text, nullable=False, default="No description available.")
 
-    chapters = db.relationship('Chapter', back_populates='subject')
+    chapters = db.relationship('Chapter', back_populates='subject', cascade='all, delete-orphan')
 
 class Chapter(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -41,7 +41,7 @@ class Chapter(db.Model):
     subject_id = db.Column(db.Integer, db.ForeignKey('subject.id'), nullable=False)
 
     subject = db.relationship('Subject', back_populates='chapters')
-    quizzes = db.relationship('Quiz', back_populates='chapter')
+    quizzes = db.relationship('Quiz', back_populates='chapter', cascade='all, delete-orphan')
 
 class Quiz(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -50,8 +50,8 @@ class Quiz(db.Model):
     duration = db.Column(db.Integer, nullable=False)
 
     chapter = db.relationship('Chapter', back_populates='quizzes')
-    questions = db.relationship('Questions', back_populates='quiz')
-    scores = db.relationship('Score', back_populates='quiz')
+    questions = db.relationship('Questions', back_populates='quiz', cascade='all, delete-orphan')
+    scores = db.relationship('Score', back_populates='quiz', cascade='all, delete-orphan')
 
 class Questions(db.Model):
     id = db.Column(db.Integer, primary_key=True)
