@@ -830,6 +830,15 @@ def summary_user():
     return render_template("summary_user.html", chapters=chapters, scores=scores)
 
 
+# Users Page for Admin
+@app.route("/admin/users")
+@admin_required
+def users():
+    users = User.query.filter_by(is_admin=False).all()
+
+    return render_template("admin/user.html", users=users)
+
+
 # User Blocking
 @app.route("/admin/access/<int:id>", methods=["POST"])
 @admin_required

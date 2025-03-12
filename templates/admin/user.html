@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="container-sm w-50 p-3">
+        <h3 class="text-center mb-4 mt-4">User Dashboard</h3>
+        <table class="table table-hover table-bordered border border-3">
+            <thead class="text-center border border-3">
+                <th>User ID</th>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Qualification</th>
+                <th>Date of Birth</th>
+                <th>Actions</th>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr class="text-center">
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.qualification.value }}</td>
+                        <td>{{ user.dob }}</td>
+                        <td>
+                            <form action="{{ url_for('access', id=user.id) }}" method="post">
+                                {% if user.is_active == 1 and user.is_admin == 0 %}
+                                    <button type="submit" class="btn btn-sm btn-danger">Block</button>
+                                {% elif user.is_active == 0  and user.is_admin == 0 %}
+                                    <button type="submit" class="btn btn-sm btn-success">Unblock</button>
+                                {% endif %}
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-center mt-4">
+            <a class="btn btn-outline-primary" href="{{ url_for('index') }}">Home</a>
+        </div>
+    </div>
+{% endblock %}
